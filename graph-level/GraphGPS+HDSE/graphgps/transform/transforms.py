@@ -24,11 +24,15 @@ def pre_transform_in_memory(dataset, transform_func, show_progress=False):
     if transform_func is None:
         return dataset
 
-    data_list = [transform_func(dataset.get(i))
-                 for i in tqdm(range(len(dataset)),
-                               disable=not show_progress,
-                               mininterval=10,
-                               miniters=len(dataset)//20)]
+    data_list = [
+        transform_func(dataset.get(i))
+        for i in tqdm(
+            range(len(dataset)),
+            disable=not show_progress,
+            mininterval=10,
+            miniters=len(dataset) // 20,
+        )
+    ]
     data_list = list(filter(None, data_list))
 
     dataset._indices = None
@@ -37,9 +41,9 @@ def pre_transform_in_memory(dataset, transform_func, show_progress=False):
 
 
 def typecast_x(data, type_str):
-    if type_str == 'float':
+    if type_str == "float":
         data.x = data.x.float()
-    elif type_str == 'long':
+    elif type_str == "long":
         data.x = data.x.long()
     else:
         raise ValueError(f"Unexpected type '{type_str}'.")
@@ -52,30 +56,31 @@ def concat_x_and_pos(data):
 
 
 def clip_graphs_to_size(data, size_limit=5000):
-    if hasattr(data, 'num_nodes'):
+    if hasattr(data, "num_nodes"):
         N = data.num_nodes  # Explicitly given number of nodes, e.g. ogbg-ppa
     else:
         N = data.x.shape[0]  # Number of nodes, including disconnected nodes.
     if N <= size_limit:
         return data
     else:
-        logging.info(f'  ...clip to {size_limit} a graph of size: {N}')
-        if hasattr(data, 'edge_attr'):
+        logging.info(f"  ...clip to {size_limit} a graph of size: {N}")
+        if hasattr(data, "edge_attr"):
             edge_attr = data.edge_attr
         else:
             edge_attr = None
-        edge_index, edge_attr = subgraph(list(range(size_limit)),
-                                         data.edge_index, edge_attr)
-        if hasattr(data, 'x'):
+        edge_index, edge_attr = subgraph(
+            list(range(size_limit)), data.edge_index, edge_attr
+        )
+        if hasattr(data, "x"):
             data.x = data.x[:size_limit]
             data.num_nodes = size_limit
         else:
             data.num_nodes = size_limit
-        if hasattr(data, 'node_is_attributed'):  # for ogbg-code2 dataset
+        if hasattr(data, "node_is_attributed"):  # for ogbg-code2 dataset
             data.node_is_attributed = data.node_is_attributed[:size_limit]
             data.node_dfs_order = data.node_dfs_order[:size_limit]
             data.node_depth = data.node_depth[:size_limit]
         data.edge_index = edge_index
-        if hasattr(data, 'edge_attr'):
+        if hasattr(data, "edge_attr"):
             data.edge_attr = edge_attr
         return data

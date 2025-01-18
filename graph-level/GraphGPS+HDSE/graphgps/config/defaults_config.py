@@ -1,7 +1,7 @@
 from torch_geometric.graphgym.register import register_config
 
 
-@register_config('overwrite_defaults')
+@register_config("overwrite_defaults")
 def overwrite_defaults_cfg(cfg):
     """Overwrite the default config values that are first set by GraphGym in
     torch_geometric.graphgym.config.set_cfg
@@ -13,16 +13,15 @@ def overwrite_defaults_cfg(cfg):
     """
 
     # Overwrite default dataset name
-    cfg.dataset.name = 'none'
+    cfg.dataset.name = "none"
 
     # Overwrite default rounding precision
     cfg.round = 5
 
 
-@register_config('extended_cfg')
+@register_config("extended_cfg")
 def extended_cfg(cfg):
-    """General extended config options.
-    """
+    """General extended config options."""
 
     # Additional name tag used in `run_dir` and `wandb_name` auto generation.
     cfg.name_tag = ""

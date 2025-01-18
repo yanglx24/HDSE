@@ -7,12 +7,14 @@ import numpy as np
 
 # Local
 
-def laplacian_matrix(adj_matrix : np.ndarray) -> np.ndarray:
+
+def laplacian_matrix(adj_matrix: np.ndarray) -> np.ndarray:
     diagonal = adj_matrix.sum(axis=0)
     D = np.diag(diagonal)
     L = D - adj_matrix
 
     return L
+
 
 ##############
 # MATH HELPERS
@@ -77,7 +79,7 @@ def update_assignments(V, C, communities):
 ######
 
 
-def spectral_clustering(adj_matrix : np.ndarray, k : int) -> list:
+def spectral_clustering(adj_matrix: np.ndarray, k: int) -> list:
     L = laplacian_matrix(adj_matrix)
     V = eigenvector_matrix(L, k)
     count = 1
@@ -86,7 +88,7 @@ def spectral_clustering(adj_matrix : np.ndarray, k : int) -> list:
         C = calc_centroids(V, communities)
         updated_communities = update_assignments(V, C, [set({}) for i in range(k)])
         # print(updated_communities)
-        if updated_communities == communities or count==100:
+        if updated_communities == communities or count == 100:
             break
         count += 1
         communities = updated_communities

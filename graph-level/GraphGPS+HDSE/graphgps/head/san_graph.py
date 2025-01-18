@@ -6,7 +6,7 @@ from torch_geometric.graphgym import cfg
 from torch_geometric.graphgym.register import register_head
 
 
-@register_head('san_graph')
+@register_head("san_graph")
 class SANGraphHead(nn.Module):
     """
     SAN prediction head for graph prediction tasks.
@@ -21,10 +21,10 @@ class SANGraphHead(nn.Module):
         super().__init__()
         self.pooling_fun = register.pooling_dict[cfg.model.graph_pooling]
         list_FC_layers = [
-            nn.Linear(dim_in // 2 ** l, dim_in // 2 ** (l + 1), bias=True)
-            for l in range(L)]
-        list_FC_layers.append(
-            nn.Linear(dim_in // 2 ** L, dim_out, bias=True))
+            nn.Linear(dim_in // 2**l, dim_in // 2 ** (l + 1), bias=True)
+            for l in range(L)
+        ]
+        list_FC_layers.append(nn.Linear(dim_in // 2**L, dim_out, bias=True))
         self.FC_layers = nn.ModuleList(list_FC_layers)
         self.L = L
 

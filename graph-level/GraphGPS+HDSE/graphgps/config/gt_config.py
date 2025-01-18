@@ -1,11 +1,13 @@
 from torch_geometric.graphgym.register import register_config
 from yacs.config import CfgNode as CN
 
-@register_config('hdse')
+
+@register_config("hdse")
 def set_cfg_gt(cfg):
     cfg.hdse = 0
-    
-@register_config('cfg_gt')
+
+
+@register_config("cfg_gt")
 def set_cfg_gt(cfg):
     """Configuration for Graph Transformer-style models, e.g.:
     - Spectral Attention Network (SAN) Graph Transformer.
@@ -17,7 +19,7 @@ def set_cfg_gt(cfg):
     cfg.gt = CN()
 
     # Type of Graph Transformer layer to use
-    cfg.gt.layer_type = 'SANLayer'
+    cfg.gt.layer_type = "SANLayer"
 
     # Number of Transformer layers in the model
     cfg.gt.layers = 3

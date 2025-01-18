@@ -1,7 +1,7 @@
 from torch_geometric.graphgym.register import register_config
 
 
-@register_config('extended_optim')
+@register_config("extended_optim")
 def extended_optim_cfg(cfg):
     """Extend optimizer config group that is first set by GraphGym in
     torch_geometric.graphgym.config.set_cfg
